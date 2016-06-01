@@ -34,7 +34,7 @@ if (file_exists($imagepath.$md5.'.png'))
 }
 else // Ansonsten den Thumbnail erstellen und bei Erfolg ausgeben
 {
-    shell_exec("/usr/local/bin/hol_thumbnailer $url $viewport $thumb");
+    shell_exec("/usr/local/bin/hol_thumbnailer ".escapeshellarg($url)." ".escapeshellarg($viewport)." ".escapeshellarg($thumb));
 
     if (file_exists($imagepath.$md5.'.png'))
     {
