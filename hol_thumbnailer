@@ -11,13 +11,14 @@ path="/var/www/html/images/"
 export XDG_CONFIG_HOME=/tmp
 
 # Überprüfen ob Daten übergeben wurden.
-# $1 = URL, $2 = Viewport, $3 = Thumbnailsize
+# $1 = URL, $2 = Viewport, $3 = Thumbnailsize, $4 = Delay
 if [ -z "$1" ] && [ -z "$2" ] && [ -z "$3" ]; then
     exit 1
 else
     url=$1
     viewport=$2
     thumb=$3
+    delay=$4
 fi
 
 # Zum Bilderverzichnis wechseln, wo die Thumbnails gespeichert werden
@@ -27,7 +28,7 @@ cd "$path"
 md5=$(echo -n $url | md5sum | awk '{ print $1}')
 
 # Screenshot der Url erstellen und als $md5.png speichern
-pageres --crop --filename=$md5 $url $viewport
+pageres --delay=$delay --crop --filename=$md5 $url $viewport
 
 # Falls das erstellen geklappt hat,
 # den Screenshot zu einem Thumbnail verkleinern
