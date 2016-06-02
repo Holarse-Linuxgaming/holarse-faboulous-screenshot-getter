@@ -30,11 +30,19 @@ if (isset($_GET['delay']) && preg_match("/^[0-9]\.[0-9]$/", $_GET['delay']))
 // MD5 der Url erstellen
 $md5 = md5($url);
 
+// Vollständiger Pfad zum thumbnail
+$thumbnail = $imagepath.$md5.'.png';
+
 // Den Thumbnail ausgeben falls er schon existiert
-if (file_exists($imagepath.$md5.'.png'))
+if (file_exists($thumbnail))
 {
+    $fileModTime = filemtime($thumbnail);
+    header('Last-Modified: '.gmdate('D, d M Y H:i:s', $fileModTime).' GMT', true, 200);
+    header('Content-transfer-encoding: binary');
+    header('Content-length: '.filesize($thumbnail));
+    header('Cache-Control: public');
     header('Content-Type: image/png');
-    readfile($imagepath.$md5.'.png');
+    readfile($thumbnail);
 }
 else // Ansonsten den Thumbnail erstellen und bei Erfolg ausgeben
 {
@@ -45,10 +53,10 @@ else // Ansonsten den Thumbnail erstellen und bei Erfolg ausgeben
                 escapeshellarg($delay)
             );
 
-    if (file_exists($imagepath.$md5.'.png'))
+    if (file_exists($thumbnail))
     {
         header('Content-Type: image/png');
-        readfile($imagepath.$md5.'.png');
+        readfile($thumbnail);
     }
     else // Fallback Thumbnail
     {
