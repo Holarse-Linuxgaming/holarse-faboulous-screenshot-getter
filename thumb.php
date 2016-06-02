@@ -46,7 +46,7 @@ if (file_exists($thumbnail))
 }
 else // Ansonsten den Thumbnail erstellen und bei Erfolg ausgeben
 {
-    shell_exec("/usr/local/bin/hol_thumbnailer ".
+    shell_exec("/usr/local/bin/hol_thumbnailer.sh ".
                 escapeshellarg($url)." ".
                 escapeshellarg($viewport)." ".
                 escapeshellarg($thumb)." ".
